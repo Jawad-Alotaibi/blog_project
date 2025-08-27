@@ -34,8 +34,8 @@ public function showCorrectHomePage()
             'password' => $incomingFields['password']
         ]);
         //logged them before redirect them to the auth home page
-        Auth::login($user);
-        return redirect('/')->with('registersuccessfully','Thank you for creating an account');
+         Auth::login($user);
+        return redirect('/')->with('success','Thank you for creating an account');
     }
 
      public function getRegisterPage()
@@ -58,7 +58,7 @@ public function showCorrectHomePage()
 
         }
     }
-
+     // fares best FormOps
      public function getLoginPage()
     {
         return view('login');
