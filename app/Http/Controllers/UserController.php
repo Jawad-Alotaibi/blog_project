@@ -58,7 +58,7 @@ public function showCorrectHomePage()
 
         }
     }
-     // fares best FormOps in eye of salman
+     // fares best FormOps in eye of salman and rahaf
      public function getLoginPage()
     {
         return view('login');
