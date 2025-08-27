@@ -35,7 +35,7 @@ body,
 }
 
 .container--narrow {
-  max-width: 732px;
+  max-width: 732px !important;
 }
 
 .header-search-icon {

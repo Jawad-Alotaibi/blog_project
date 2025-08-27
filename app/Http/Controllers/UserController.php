@@ -28,12 +28,14 @@ public function showCorrectHomePage()
             'email'=> ['required', 'email', Rule::unique('users', 'email')],
             'password'=> ['required', 'min:8', 'confirmed']
         ]);
-        User::create([
+        $user = User::create([
             'username' => $incomingFields['username'],
             'email' => $incomingFields['email'],
             'password' => $incomingFields['password']
         ]);
-        return "Hello from register function";
+        //logged them before redirect them to the auth home page
+        Auth::login($user);
+        return redirect('/')->with('registersuccessfully','Thank you for creating an account');
     }
 
      public function getRegisterPage()
