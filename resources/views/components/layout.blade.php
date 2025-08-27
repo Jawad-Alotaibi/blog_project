@@ -22,28 +22,29 @@
           <a href="#" class="text-white mr-2 header-search-icon" title="Search" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-search"></i></a>
           <span class="text-white mr-2 header-chat-icon" title="Chat" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-comment"></i></span>
           <a href="#" class="mr-2"><img title="My Profile" data-toggle="tooltip" data-placement="bottom" style="width: 32px; height: 32px; border-radius: 16px" src="https://gravatar.com/avatar/f64fc44c03a8a7eb1d52502950879659?s=128" /></a>
-          <a class="btn btn-sm btn-success mr-2" href="#">Create Post</a>
+          <a class="btn btn-sm mr-2 btn-custom-bg text-white" href="/create-post">Create Post</a>
           <form action="/logout" method="POST" class="d-inline">
             @csrf
-            <button class="btn btn-sm btn-secondary">Sign Out</button>
+            <button class="btn btn-sm btn-custom-bg text-white">Sign Out</button>
           </form>
         </div>
 
           
       @else
        <div class="container d-flex flex-column flex-md-row align-items-center p-3">
-                <h4 class="my-0 mr-md-auto font-weight-normal"><a href="/" class="text-white">Postify</a></h4>
-                <div>
-                <a href="login">
-                <button class="btn btn-primary btn-sm btn-custom-blue">Login</button>
-              </a>
-            </div>
-             <div>
-                <a href="/register">
-                <button class="btn btn-primary btn-sm btn-custom-blue">Register</button>
-              </a>
-            </div>
-      </div>
+  <h4 class="my-0 mr-md-auto font-weight-normal">
+    <a href="/" class="text-white">Postify</a>
+  </h4>
+
+  <div class="d-flex">
+    <a href="/login" class="mr-2">
+      <button class="btn btn-primary btn-sm btn-custom-blue">Login</button>
+    </a>
+    <a href="/register">
+      <button class="btn btn-primary btn-sm btn-custom-blue">Register</button>
+    </a>
+  </div>
+</div>
       @endauth
     </header>
     <!-- header ends here -->
