@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="main.css" />
+    <!-- <link rel="stylesheet" href="main.css" /> -->
+    @vite(['resources/css/main.css', 'resources/js/app.js'])
   </head>
   <body>
     <header class="header-bar mb-3">
@@ -32,19 +33,16 @@
           
       @else
        <div class="container d-flex flex-column flex-md-row align-items-center p-3">
-  <h4 class="my-0 mr-md-auto font-weight-normal">
-    <a href="/" class="text-white">Postify</a>
-  </h4>
-
-  <div class="d-flex">
-    <a href="/login" class="mr-2">
-      <button class="btn btn-primary btn-sm btn-custom-blue">Login</button>
-    </a>
-    <a href="/register">
-      <button class="btn btn-primary btn-sm btn-custom-blue">Register</button>
-    </a>
-  </div>
-</div>
+                <h4 class="my-0 mr-md-auto font-weight-normal"><a href="/" class="text-white">Postify</a></h4>
+                <div class="d-flex">
+                  <a href="login" class="mr-2">
+                    <button class="btn btn-primary btn-sm btn-custom-blue">Login</button>
+                  </a>
+                  <a href="/register">
+                    <button class="btn btn-primary btn-sm btn-custom-blue">Register</button>
+                  </a>
+                </div>
+      </div>
       @endauth
     </header>
     <!-- header ends here -->
@@ -65,7 +63,9 @@
             </div>
         @endif
 
+        
         {{ $slot }}
+      
         
     <!-- footer begins -->
     <footer class="border-top text-center small text-muted py-3 bg-white mt-auto w-100">
@@ -83,7 +83,7 @@
       .header-bar {
       flex-shrink: 0;
       }
-      main, .container, #app {
+      main, #app {
       flex: 1 0 auto;
       }
       footer {

@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class UserController extends Controller
 {
@@ -34,13 +35,13 @@ public function showCorrectHomePage()
             'password' => $incomingFields['password']
         ]);
         //logged them before redirect them to the auth home page
-         Auth::login($user);
+        Auth::login($user);
         return redirect('/')->with('success','Thank you for creating an account');
     }
 
-     public function getRegisterPage()
+    public function getRegisterPage()
     {
-        return view('register');
+        return View::make('register');
     }
 
     public function login(Request $request)
