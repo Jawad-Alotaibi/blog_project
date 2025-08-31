@@ -24,24 +24,35 @@ class PostController extends Controller
         $incomingFields['title'] = strip_tags($incomingFields['title']);
         $incomingFields['body'] = strip_tags($incomingFields['body']);
 
-           
+
         $incomingFields['user_id'] = Auth::id();
-        
+
        $newPost =  Post::create([
             'title' => $incomingFields['title'],
             'body' => $incomingFields['body'],
             'user_id' => $incomingFields['user_id']
-            
+
         ]);
 
         return redirect("/post/{$newPost->id}")->with('success', 'New post successfully created');
-            
+
         }
 
 
         public function viewSinglePost(Post $post)
         {
-            $post->body = str::markdown($post->body);
+            $post['body'] = strip_tags(Str::markdown($post->body), '<p><h1><h2><h3><h4><h5><h6><ul><li><ol><em><br>');
             return view('single-post', ['post' => $post]);
+        }
+
+        public function delete(Post $post)
+        {
+            if (Auth::user()->can('delete', $post))
+            {
+                 $post->delete();
+            return redirect('/profile/' . Auth::user()->username)->with('success', 'Post deleted successfully');
+            }
+
+            return 'You cannot do that';
         }
 }

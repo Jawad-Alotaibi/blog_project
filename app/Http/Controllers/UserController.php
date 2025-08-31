@@ -74,7 +74,7 @@ public function showCorrectHomePage()
 
     public function profile(User $user)
     {
-        $posts = $user->posts()->get();
+        $posts = $user->posts;
         return view('user-Profile', ['username' => $user->username, 'posts' => $posts, 'totalPosts' => $posts->count()]);
     }
 
