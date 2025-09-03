@@ -109,6 +109,6 @@ public function showCorrectHomePage()
         {
             Storage::disk('public')->delete(str_replace("/storage/","",$oldAvatar));
         }
-        return back()->with('success', 'Congrats on The New Avatar');
+         return back()->with('success', 'Congrats on The New Avatar');
     }
 }
