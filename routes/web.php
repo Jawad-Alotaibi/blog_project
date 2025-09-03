@@ -4,6 +4,7 @@ use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\MustBeLoggedIn;
+use Illuminate\Support\Facades\Gate;
 
 //User related routes
 Route::get('/', [UserController::class, "showCorrectHomePage"]);
@@ -17,8 +18,19 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('mustBeLog
 //Blog post related routes
 Route::get('/create-post', [PostController::class, 'showCreatePostForm'])->middleware('mustBeLoggedIn');
 Route::post('/create-post', [PostController::class, 'storeNewPost'])->middleware('mustBeLoggedIn');
-Route::get('/post/{post}', [PostController::class, 'viewSinglePost'])->middleware('mustBeLoggedIn');
-Route::delete('/post/{post}', [PostController::class, 'delete']);
+Route::get('/post/{post}', [PostController::class, 'showSinglePost'])->middleware('mustBeLoggedIn');
+Route::delete('/post/{post}', [PostController::class, 'delete'])->middleware(['can:delete,post', 'mustBeLoggedIn']);
+Route::get('/post/{post}/edit', [PostController::class, 'showEditPostForm'])->middleware('can:update,post');
+Route::put('/post/{post}', [PostController::class, 'update'])->middleware('can:update,post');
+
 
 //Profile related routes
 Route::get('/profile/{user:username}', [UserController::class, 'profile']);
+Route::get('/profile/{user:username}/manage-avatar', [UserController::class, 'showManageAvatarPage'])->middleware('mustBeLoggedIn');
+Route::post('/profile/manage-avatar', [UserController::class, 'uploadAvatar'])->middleware('mustBeLoggedIn');
+
+
+//Admin related routes
+Route::get('/admins-only', function (){
+    return 'only admins can see this page';
+})->middleware('can:visitAdminPages');

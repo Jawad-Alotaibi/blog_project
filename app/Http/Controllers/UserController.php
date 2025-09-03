@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class UserController extends Controller
 {
@@ -23,7 +26,7 @@ public function showCorrectHomePage()
     }
 
 
-    public function register(Request $request) 
+    public function register(Request $request)
     {
         $incomingFields = $request->validate([
             'username'=> ['required', 'min:3', 'max:20', Rule::unique('users','username')],
@@ -42,7 +45,7 @@ public function showCorrectHomePage()
 
     public function getRegisterPage()
     {
-        return View::make('register');
+        return view('register');
     }
 
     public function login(Request $request)
@@ -51,7 +54,7 @@ public function showCorrectHomePage()
             'loginusername' => 'required',
             'loginpassword' => 'required'
         ]);
-        
+
         if(Auth::attempt(['username' => $incomingFields['loginusername'], 'password' => $incomingFields['loginpassword']])) { //if the credintials are true        {
             $request->session()->regenerate(); // give the user session value, to tell the browser to store it in a cookie and then that way the browser will send this information with each request
             return redirect('/')->with('success', 'You have successfully logged in');
@@ -60,7 +63,6 @@ public function showCorrectHomePage()
 
         }
     }
-     // fares best FormOps in eye of salman and rahaf
      public function getLoginPage()
     {
         return view('login');
@@ -74,8 +76,39 @@ public function showCorrectHomePage()
 
     public function profile(User $user)
     {
-        $posts = $user->posts;
-        return view('user-Profile', ['username' => $user->username, 'posts' => $posts, 'totalPosts' => $posts->count()]);
+        $posts = $user->posts()->latest()->get();
+        return view('user-Profile', ['username' => $user->username, 'posts' => $posts, 'totalPosts' => $posts->count(), 'postAuthorAvatar' => $user->avatar]);
     }
 
+    public function showManageAvatarPage()
+    {
+        return view('manage-avatar');
+    }
+
+    public function uploadAvatar(Request $request)
+    {
+         $request->validate([
+            'avatar' => 'required|image|max:3000'
+        ]);
+
+        $user = auth()->user();
+        $fileName = $user->id . "-" . uniqid() . ".jpg";
+
+        $manager = new ImageManager(new Driver());
+        $image = $manager->read($request->file('avatar'));
+        $imgData = $image->cover(120, 120)->toJpeg();
+
+        //The file name may be '1iwjfviefiqbvin' starting with the id of the user then random unique key
+        Storage::disk('public')->put("avatars/{$fileName}",$imgData);
+
+        $oldAvatar = $user->avatar; //keep track of the old photo
+        $user->avatar = $fileName;
+        $user->save();
+
+        if($oldAvatar != "/fallback-avatar.jpg")
+        {
+            Storage::disk('public')->delete(str_replace("/storage/","",$oldAvatar));
+        }
+        return back()->with('success', 'Congrats on The New Avatar');
+    }
 }

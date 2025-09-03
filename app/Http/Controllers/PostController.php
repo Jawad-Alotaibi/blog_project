@@ -39,7 +39,7 @@ class PostController extends Controller
         }
 
 
-        public function viewSinglePost(Post $post)
+        public function showSinglePost(Post $post)
         {
             $post['body'] = strip_tags(Str::markdown($post->body), '<p><h1><h2><h3><h4><h5><h6><ul><li><ol><em><br>');
             return view('single-post', ['post' => $post]);
@@ -47,12 +47,27 @@ class PostController extends Controller
 
         public function delete(Post $post)
         {
-            if (Auth::user()->can('delete', $post))
-            {
-                 $post->delete();
+             $post->delete();
             return redirect('/profile/' . Auth::user()->username)->with('success', 'Post deleted successfully');
-            }
+        }
 
-            return 'You cannot do that';
+        public function showEditPostForm(Post $post)
+        {
+            return view('edit-post', ['post' => $post]);
+        }
+
+        public function update(Post $post, Request $request)
+        {
+            $incomingFields = $request->validate([
+                'title' => 'required',
+                'body' => 'required'
+            ]);
+
+            $incomingFields['title'] = strip_tags($incomingFields['title']);
+            $incomingFields['body'] = strip_tags($incomingFields['body']);
+
+            $post->update($incomingFields);
+            return redirect('/post/' . $post->id)->with('success', 'Post updated successfully');
+
         }
 }
