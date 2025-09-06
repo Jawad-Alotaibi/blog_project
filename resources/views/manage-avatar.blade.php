@@ -11,11 +11,13 @@
                 <i class="fas fa-download fa-3x mb-3" style="color: #083358;"></i>
                 <div class="mb-3 w-100 text-center">
                     <span class="d-block text-secondary mb-2">Select a file "Avatar"</span>
-                    <input type="file" class="d-none" id="avatar" name="avatar" required>
+                    <input type="file" class="d-none" id="avatar" name="avatar">
                     <label for="avatar" class="btn btn-custom-blue">Select a file</label>
                 </div>
                 @error('avatar')
-                <p class="alerr small alert-danger shadow-sm">{{$message}}</p>
+                    <p class="m-0 small alert alert-danger shadow-sm">
+                        {{$message}}
+                    </p>
                 @enderror
             </div>
             <button class="btn btn-custom-blue mx-auto">Save Your Avatar</button>

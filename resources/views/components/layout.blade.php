@@ -22,7 +22,7 @@
       <div class="flex-row my-3 my-md-0">
           <a href="#" class="text-white mr-2 header-search-icon" title="Search" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-search"></i></a>
           <span class="text-white mr-2 header-chat-icon" title="Chat" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-comment"></i></span>
-          <a href="/profile/{{Auth::user()->username}}" class="mr-2"><img title="My Profile" data-toggle="tooltip" data-placement="bottom" style="width: 32px; height: 32px; border-radius: 16px" src="{{auth()->user()->avatar}}" /></a>
+          <a href="/profile/{{Auth::user()->username}}" class="mr-2"><img title="My Profile" data-toggle="tooltip" data-placement="bottom" style="width: 32px; height: 32px; border-radius: 16px" src="{{auth()->user()->avatar}}" alt="User Avatar"/></a>
           <a class="btn btn-sm mr-2 btn-custom-bg text-white" href="/create-post">Create Post</a>
           <form action="/logout" method="POST" class="d-inline">
             @csrf
@@ -86,7 +86,7 @@
         if (successMessage) {
             setTimeout(function() {
                 successMessage.style.display = 'none';
-            }, 5000); // Hide after 5 seconds
+            }, 4000); // Hide after 5 seconds
         }
 
         // Find and hide the failure message after 5 seconds
@@ -94,7 +94,7 @@
         if (failureMessage) {
             setTimeout(function() {
                 failureMessage.style.display = 'none';
-            }, 5000); // Hide after 5 seconds
+            }, 4000); // Hide after 5 seconds
         }
     });
 </script>
