@@ -91,9 +91,10 @@ public function showCorrectHomePage()
             'avatar' => 'required|image|max:3000'
         ]);
 
-        $user = auth()->user();
-        $fileName = $user->id . "-" . uniqid() . ".jpg";
+        $user = auth()->user();//get the currently authenticated user
+        $fileName = $user->id . "-" . uniqid() . ".jpg"; // Create a file name starting with User_id-uniqueId.jpg
 
+        //The Logic of image manipualtion
         $manager = new ImageManager(new Driver());
         $image = $manager->read($request->file('avatar'));
         $imgData = $image->cover(120, 120)->toJpeg();
@@ -107,8 +108,9 @@ public function showCorrectHomePage()
 
         if($oldAvatar != "/fallback-avatar.jpg")
         {
-            Storage::disk('public')->delete(str_replace("/storage/","",$oldAvatar));
+            Storage::disk('public')->delete(str_replace("/storage/","",$oldAvatar)); //storage/avatars/1-68b84969d75d4.jpg
         }
-         return back()->with('success', 'Congrats on The New Avatar');
+        $userName = $user->username;
+         return redirect('/profile/' . $userName)->with('success', 'Congrats on The New Avatar');
     }
 }
