@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\PostController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Middleware\MustBeLoggedIn;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Middleware\MustBeLoggedIn;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\FollowController;
 
 //User related routes
 Route::get('/', [UserController::class, "showCorrectHomePage"]);
@@ -20,7 +20,6 @@ Route::get('/create-post', [PostController::class, 'showCreatePostForm'])->middl
 Route::post('/create-post', [PostController::class, 'storeNewPost'])->middleware('mustBeLoggedIn');
 Route::get('/post/{post}', [PostController::class, 'showSinglePost'])->middleware('mustBeLoggedIn');
 Route::delete('/post/{post}', [PostController::class, 'delete'])->middleware(['can:delete,post', 'mustBeLoggedIn']);
-Route::get('/post/{post}/edit', [PostController::class, 'showEditPostForm'])->middleware('can:update,post');
 Route::put('/post/{post}', [PostController::class, 'update'])->middleware('can:update,post');
 
 
@@ -34,3 +33,12 @@ Route::post('/profile/manage-avatar', [UserController::class, 'uploadAvatar'])->
 Route::get('/admins-only', function (){
     return 'only admins can see this page';
 })->middleware('can:visitAdminPages');
+
+
+//Follow related routes
+Route::post('/create-follow/{user:username}',[FollowController::class, 'createFollow'])->middleware('mustBeLoggedIn');
+Route::delete('/remove-follow/{user:username}',[FollowController::class, 'removeFollow'])->middleware('mustBeLoggedIn');
+Route::get('profile/{user:username}/followers/', [UserController::class, 'profileFollowers'])->middleware('mustBeLoggedIn');
+Route::get('profile/{user:username}/following/', [UserController::class, 'profileFollowing'])->middleware('mustBeLoggedIn');
+
+

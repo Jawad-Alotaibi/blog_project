@@ -2,10 +2,13 @@
     "$schema": "https://json.schemastore.org/package.json",
     "private": true,
     "type": "module",
-    "scripts": {
-        "build": "vite build",
-        "dev": "vite"
-    },
+"scripts": {
+  "build": "vite build",
+  "dev": "vite",
+  "dev:php": "php artisan serve",
+  "dev:queue": "php artisan queue:listen --tries=1",
+  "dev:all": "concurrently -c \"#93c5fd,#c4b5fd,#fb7185\" -n server,queue,vite \"npm:dev:php\" \"npm:dev:queue\" \"npm:dev\" --kill-others"
+},
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
         "axios": "^1.11.0",
