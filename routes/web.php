@@ -24,7 +24,7 @@ Route::put('/post/{post}', [PostController::class, 'update'])->middleware('can:u
 
 
 //Profile related routes
-Route::get('/profile/{user:username}', [UserController::class, 'profile']);
+Route::get('/profile/{user:username}', [UserController::class, 'profilePosts']);
 Route::get('/profile/{user:username}/manage-avatar', [UserController::class, 'showManageAvatarPage'])->middleware('mustBeLoggedIn');
 Route::post('/profile/manage-avatar', [UserController::class, 'uploadAvatar'])->middleware('mustBeLoggedIn');
 

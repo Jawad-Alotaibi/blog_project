@@ -1,6 +1,6 @@
 <x-layout>
     <div class="container py-md-5 container--narrow">
-    <p><small><strong><a href="/profile/{{Auth::user()->username}}">&laquo;Back to your posts</a></strong></small></p>
+    <p><small><strong><a href="/">&laquo;Back to your posts</a></strong></small></p>
       <div class="d-flex justify-content-between">
         <h2>{{$post->title}}</h2>
         @can('update', $post)
@@ -19,8 +19,8 @@
       </div>
 
       <p class="text-muted small mb-4">
-        <a href="#"><img class="avatar-tiny" src="{{$post->user->avatar}}" /></a>
-        Posted by <a href="#">{{$post->user->username}}</a> on {{$post->created_at->format('n/j/Y')}}
+        <a href="/profile/{{$post->user->username}}"><img class="avatar-tiny" src="{{$post->user->avatar}}" /></a>
+        Posted by <a href="/profile/{{$post->user->username}}">{{$post->user->username}}</a> on {{$post->created_at->format('n/j/Y')}}
       </p>
 
       <div class="body-content">

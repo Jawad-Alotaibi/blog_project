@@ -19,7 +19,7 @@ public function showCorrectHomePage()
     {
         if(Auth::check())
         {
-            return view('homepage-feed');
+            return view('homepage-feed', ['posts'=> auth()->user()->feedPosts()->latest()->get()]);
         } else
         {
             return view('homepage');
@@ -75,9 +75,9 @@ public function showCorrectHomePage()
         return redirect('/')->with('success', 'You are now logged out');
     }
 
-    public function profile(User $user)
+    private function getSharedData($user)
     {
-        $currentlyFollowing = 0;
+         $currentlyFollowing = 0;
 
         if(auth()->check())
         {
@@ -85,8 +85,29 @@ public function showCorrectHomePage()
 
         }
 
+        View::Share('sharedData',['username' => $user->username, 'totalPosts' => $user->posts()->count(), 'postAuthorAvatar' => $user->avatar, 'currentlyFollowing' => $currentlyFollowing, 'followerCount' => $user->followers()->count(), 'followingCount' => $user->following()->count()]);
+    }
+    public function profilePosts(User $user)
+    {
+        $this->getSharedData($user);
         $posts = $user->posts()->latest()->get();
-        return view('profile-posts', ['username' => $user->username, 'posts' => $posts, 'totalPosts' => $posts->count(), 'postAuthorAvatar' => $user->avatar, 'currentlyFollowing' => $currentlyFollowing]);
+        return view('profile-posts', ['posts' => $posts]);
+    }
+
+    public function profileFollowers(User $user)
+    {
+        $this->getSharedData($user);
+        $followers = $user->followers()->latest()->get();
+        return view('profile-followers', ['followers' => $followers]);
+
+    }
+
+    public function profileFollowing(User $user)
+    {
+
+        $this->getSharedData($user);
+        $following = $user->following()->latest()->get();
+        return view('profile-following', ['following' => $following]);
     }
 
     public function showManageAvatarPage()
@@ -123,29 +144,5 @@ public function showCorrectHomePage()
          return redirect('/profile/' . $user->username)->with('success', 'Congrats on The New Avatar');
     }
 
-    public function profileFollowers(User $user)
-    {
-        $currentlyFollowing = 0;
 
-        if(auth()->check())
-        {
-            $currentlyFollowing = Follow::where([['user_id' , '=', auth()->user()->id], ['followeduser', '=', $user->id]])->count();
-
-        }
-
-        $posts = $user->posts()->latest()->get();
-        return view('profile-followers', ['username' => $user->username, 'posts' => $posts, 'totalPosts' => $posts->count(), 'postAuthorAvatar' => $user->avatar, 'currentlyFollowing' => $currentlyFollowing]);
-    }
-    public function profileFollowing(User $user)
-    {
-        $currentlyFollowing = 0;
-
-        if(auth()->check())
-         {
-            $currentlyFollowing = Follow::where([['user_id' , '=', auth()->user()->id], ['followeduser', '=', $user->id]])->count();
-
-         }
-
-        $posts = $user->posts()->latest()->get();
-        return view('profile-following', ['username' => $user->username, 'posts' => $posts, 'totalPosts' => $posts->count(), 'postAuthorAvatar' => $user->avatar, 'currentlyFollowing' => $currentlyFollowing]);    }
 }

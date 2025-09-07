@@ -1,5 +1,5 @@
-<x-profile :username="$username" :postAuthorAvatar="$postAuthorAvatar" :currentlyFollowing="$currentlyFollowing"
-    :totalPosts="$totalPosts" :posts="$posts">
+
+<x-profile :sharedData="$sharedData">
 
     <div class="list-group">
         @foreach ($posts as $post)
