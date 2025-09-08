@@ -6,7 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Follow extends Model
 {
- public function userDoingTheFollowing()
+
+    /*
+
+- belongsTo(User::class): This tells Laravel that the Follow record "belongs to" an instance of the User model.
+  This is a one-to-many inverse relationship, meaning many Follow records can belong to a single User.
+
+- 'user_id': This is the foreign key. It explicitly tells Laravel to use the user_id column in your follows table to find the related User record.
+  Without this, Laravel would assume the foreign key is user_doing_the_following_id based on the method name.
+
+    */
+  public function userDoingTheFollowing()
  {
      return $this->belongsTo(User::class, 'user_id');
  }

@@ -1,31 +1,40 @@
 <x-layout>
     <div class="container py-md-5 container--narrow">
-    <p><small><strong><a href="/">&laquo;Back to your posts</a></strong></small></p>
-      <div class="d-flex justify-content-between">
-        <h2>{{$post->title}}</h2>
-        @can('update', $post)
-        <span class="pt-2">
-          <a href="/post/{{$post->id}}/edit" class="text-primary mr-2" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
-        @endcan
-        @can('delete', $post)
-          <form class="delete-post-form d-inline" action="/post/{{$post->id}}" method="POST">
-            {{-- Normal HTML cannot send delete request but i will use blade directive to solve the issue --}}
-            @csrf
-            @method('DELETE')
-            <button class="delete-post-button text-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash"></i></button>
-          </form>
-        </span>
-        @endcan
-      </div>
+        <div>
+            <p class="m-0"><small><strong><a href="/profile/{{auth()->user()->username}}">&laquo;Back to your
+                            posts</a></strong></small></p>
+            <p class="m-0"><small><strong><a href="/"><i class="fas fa-home"></i>Back to HomePage</a></strong></small>
+            </p>
+        </div>
 
-      <p class="text-muted small mb-4">
-        <a href="/profile/{{$post->user->username}}"><img class="avatar-tiny" src="{{$post->user->avatar}}" /></a>
-        Posted by <a href="/profile/{{$post->user->username}}">{{$post->user->username}}</a> on {{$post->created_at->format('n/j/Y')}}
-      </p>
+        <div class="d-flex justify-content-between">
+            <h2>{{$post->title}}</h2>
+            @can('update', $post)
+            <span class="pt-2">
+                <a href="/post/{{$post->id}}/edit" class="text-primary mr-2" data-toggle="tooltip" data-placement="top"
+                    title="Edit"><i class="fas fa-edit"></i></a>
+                @endcan
+                @can('delete', $post)
+                <form class="delete-post-form d-inline" action="/post/{{$post->id}}" method="POST">
+                    {{-- Normal HTML cannot send delete request but i will use blade directive to solve the issue --}}
+                    @csrf
+                    @method('DELETE')
+                    <button class="delete-post-button text-danger" data-toggle="tooltip" data-placement="top"
+                        title="Delete"><i class="fas fa-trash"></i></button>
+                </form>
+            </span>
+            @endcan
+        </div>
 
-      <div class="body-content">
-        <p>{!! $post->body !!}</p>
+        <p class="text-muted small mb-4">
+            <a href="/profile/{{$post->user->username}}"><img class="avatar-tiny" src="{{$post->user->avatar}}" /></a>
+            Posted by <a href="/profile/{{$post->user->username}}">{{$post->user->username}}</a> on
+            {{$post->created_at->format('n/j/Y')}}
+        </p>
 
-      </div>
+        <div class="body-content">
+            <p>{!! $post->body !!}</p>
+
+        </div>
     </div>
 </x-layout>

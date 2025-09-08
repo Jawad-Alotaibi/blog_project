@@ -15,6 +15,12 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class UserController extends Controller
 {
+// public function testRelation()
+// {
+//     return auth()->user()->followers()->get();
+
+// }
+
 public function showCorrectHomePage()
     {
         if(Auth::check())
@@ -81,7 +87,10 @@ public function showCorrectHomePage()
 
         if(auth()->check())
         {
-            $currentlyFollowing = Follow::where([['user_id' , '=', auth()->user()->id], ['followeduser', '=', $user->id]])->count();
+            $currentlyFollowing =
+             Follow::where([['user_id' , '=', auth()->user()->id],
+            ['followeduser', '=', $user->id]])
+            ->count();
 
         }
 
