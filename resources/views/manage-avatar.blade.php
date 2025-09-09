@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout doctitle="Manage Your Avatar">
 
     <div class="container py-md-5 d-flex flex-column align-items-center justify-content-center"
         style="min-height: 80vh;">

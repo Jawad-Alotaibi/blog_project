@@ -25,7 +25,8 @@ public function showCorrectHomePage()
     {
         if(Auth::check())
         {
-            return view('homepage-feed', ['posts'=> auth()->user()->feedPosts()->latest()->get()]);
+            $posts = auth()->user()->postsThroughFollow()->latest()->paginate(5);
+            return view('homepage-feed', ['posts'=> $posts]);
         } else
         {
             return view('homepage');

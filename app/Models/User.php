@@ -54,7 +54,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function feedPosts()
+    public function postsThroughFollow()
     {
         return $this->hasManyThrough(
             Post::class,

@@ -1,11 +1,17 @@
-<x-layout>
+<x-layout :doctitle="$post->title">
     <div class="container py-md-5 container--narrow">
-        <div>
-            <p class="m-0"><small><strong><a href="/profile/{{auth()->user()->username}}">&laquo;Back to your
-                            posts</a></strong></small></p>
-            <p class="m-0"><small><strong><a href="/"><i class="fas fa-home"></i>Back to HomePage</a></strong></small>
-            </p>
-        </div>
+        <div class="d-flex align-items-center gap-2">
+    <p class="m-1">
+        <small><strong>
+            <a href="/profile/{{auth()->user()->username}}">&laquo;Back to your posts</a>
+        </strong></small>
+    </p>
+    <p class="m-0">
+        <small><strong>
+            <a href="/"><i class="fas fa-home"></i>Back to HomePage</a>
+        </strong></small>
+    </p>
+</div>
 
         <div class="d-flex justify-content-between">
             <h2>{{$post->title}}</h2>
