@@ -22,6 +22,8 @@ Route::get('/post/{post}', [PostController::class, 'showSinglePost'])->middlewar
 Route::delete('/post/{post}', [PostController::class, 'delete'])->middleware(['can:delete,post', 'mustBeLoggedIn']);
 Route::get('/post/{post}/edit', [PostController::class, 'showEditPostForm'])->middleware('can:update,post');
 Route::put('/post/{post}', [PostController::class, 'update'])->middleware('can:update,post');
+Route::get('/search/{term}', [PostController::class, 'search']);
+
 
 
 //Profile related routes
@@ -41,5 +43,3 @@ Route::post('/create-follow/{user:username}',[FollowController::class, 'createFo
 Route::delete('/remove-follow/{user:username}',[FollowController::class, 'removeFollow'])->middleware('mustBeLoggedIn');
 Route::get('profile/{user:username}/followers/', [UserController::class, 'profileFollowers'])->middleware('mustBeLoggedIn');
 Route::get('profile/{user:username}/following/', [UserController::class, 'profileFollowing'])->middleware('mustBeLoggedIn');
-
-

@@ -9,6 +9,21 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+
+
+    /**
+     * When the user types into the search input the JS waits until they stop typing (debounce),
+     * then sends an AJAX request (axios) to your Laravel search action which runs a search on Post,
+     *  returns matching posts as JSON (with the post authors loaded), and the JS renders those results into the overlay DOM safely using DOMPurify.
+     */
+    public function search($term)
+    {
+    // Post::where('title', 'LIKE', '%'. $term. '%')->orWhere('body', 'LIKE', '%'. $term. '%')->with('user:id,username,avatar')->get();
+        $posts = Post::search($term)->get();
+        $posts->load('user:id,username,avatar');
+        return $posts;
+    }
+
     public function showCreatePostForm()
     {
         return view('createPost');

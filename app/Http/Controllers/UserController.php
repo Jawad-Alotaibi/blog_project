@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Follow;
 use Illuminate\Http\Request;
+use App\Events\OurExampleEvent;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -65,6 +66,7 @@ public function showCorrectHomePage()
 
         if(Auth::attempt(['username' => $incomingFields['loginusername'], 'password' => $incomingFields['loginpassword']])) { //if the credintials are true        {
             $request->session()->regenerate(); // give the user session value, to tell the browser to store it in a cookie and then that way the browser will send this information with each request
+            event(new OurExampleEvent(['username' => auth()->user()->username ,'action' => 'Login']));
             return redirect('/')->with('success', 'You have successfully logged in');
         } else{
             return redirect('/login')->with('failure', 'Invalid login');
@@ -78,9 +80,11 @@ public function showCorrectHomePage()
 
     public function logout()
     {
+        $username = Auth::user()->username;
         Auth::logout();
+        event(new OurExampleEvent(['username' => $username ,'action' => 'Logout']));
         return redirect('/')->with('success', 'You are now logged out');
-    }
+    } 
 
     private function getSharedData($user)
     {
@@ -100,7 +104,7 @@ public function showCorrectHomePage()
     public function profilePosts(User $user)
     {
         $this->getSharedData($user);
-        $posts = $user->posts()->latest()->get();
+        $posts = $user->posts()->latest()->get(); //querying the db for the posts for that user coming from the uri
         return view('profile-posts', ['posts' => $posts]);
     }
 
